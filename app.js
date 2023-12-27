@@ -10,6 +10,22 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(logger("dev"))
 
+app.get("/api/v1/users", async(req, res, next)=>{
+  const users = await User.find()
+  res.status(200).json({status: "success", data: users})
+  
+})
+
+app.delete("/api/v1/users", async(req, res, next)=>{
+  const user = await User.findByIdAndDelete(req.body.userid)
+  res.status(200).json({status: "success", message: "User deleted successfully", data: user})
+})
+
+app.patch("/api/v1/users/",async(req, res, next)=>{
+  const user = await User.findByIdAndUpdate(req.body.userid, req.body)
+  res.status(200).json({status: "success", message: "User updated sucessfully", data: user})
+})
+
 app.post("/api/v1/users/signin",async (req, res, next)=>{
     try {
         const { email, password } = req.body;
