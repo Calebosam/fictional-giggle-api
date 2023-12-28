@@ -1,0 +1,11 @@
+meta {
+  name: Flush Redis
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{BASE_URL}}/api/v1/externalUsers
+  body: none
+  auth: none
+}

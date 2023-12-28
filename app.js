@@ -19,7 +19,15 @@ const redisClient = Redis.createClient({
 
 redisClient.connect().catch(console.error);
 
-app.delete("/api/v1")
+app.delete("/api/v1/externalUsers", async(req, res, next)=>{
+  try{
+    const reply = await redisClient.flushAll()
+    res.status(200).json({status: "success", message: "Data Cleared from Redis DB", data: reply})
+  }catch(err){
+    res.status(400).json({status: "failure", message: err })
+  }
+})
+
 app.get("/api/v1/externalUsers", async(req, res, next)=>{
   const data = await redisClient.get("externalUsers")
   if(data === null) {
