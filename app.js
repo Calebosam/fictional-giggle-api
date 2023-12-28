@@ -36,10 +36,10 @@ app.get("/api/v1/externalUsers", async(req, res, next)=>{
     );
     const externalUsers = JSON.stringify(data);
     await redisClient.set("externalUsers", externalUsers);
-    res.json({ src: "typicode", externalUsers: data });
+    res.json({ src: "Typicode", data });
   }else{
     const parsedData = JSON.parse(data)
-    res.status(200).json({status: "success", src: "redis", data: parsedData})
+    res.status(200).json({status: "success", src: "Redis", data: parsedData})
   }
 })
 app.get("/api/v1/users", async (req, res, next) => {
