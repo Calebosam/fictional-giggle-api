@@ -6,6 +6,8 @@ const User = require("./models/UserModel");
 const AppError = require("./utils/AppError");
 const Redis = require('redis');
 const axios = require("axios")
+const dotenv = require("dotenv")
+dotenv.config()
 
 const app = express();
 app.use(cors());
@@ -16,7 +18,7 @@ app.use(logger("dev"));
 const redisClient = Redis.createClient({
   url: process.env.REDIS_URL
 })
-
+console.log(process.env.REDIS_URL)
 redisClient.connect().catch(console.error);
 
 app.delete("/api/v1/externalUsers", async(req, res, next)=>{
