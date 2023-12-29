@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fictional-giggle-api
+  namespace: fic-gig
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 30%
+      maxUnavailable: 30%
+  revisionHistoryLimit: 4
+  selector:
+    matchLabels:
+      app: fictional-giggle-api
+  template:
+    metadata:
+      labels:
+        app: fictional-giggle-api
+    spec:
+      containers:
+        - name: fictional-giggle-api
+          image: caleb9083/fictional-giggle-api:latest
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 250m
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 4000
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: environment-file
+              mountPath: /app/.env
+              subPath: .env
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: dockerhub-creds
+      volumes:
+        - name: environment-file
+          secret:
+            secretName: env-file
+            items:
+              - key: .env
+                path: .env
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fictional-giggle-api-service
+  namespace: fic-gig
+spec:
+  type: NodePort
+  selector:
+    app: fictional-giggle-api
+  ports:
+  - port: 4000
+    targetPort: 4000
+    protocol: TCP
+    nodePort: 32400
