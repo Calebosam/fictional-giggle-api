@@ -54,11 +54,11 @@ metadata:
   name: fictional-giggle-api-service
   namespace: fic-gig
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: fictional-giggle-api
   ports:
   - port: 4000
     targetPort: 4000
     protocol: TCP
-    nodePort: 32400
+    # nodePort: 32400

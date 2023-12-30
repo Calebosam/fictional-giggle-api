@@ -42,13 +42,18 @@ redis-create:
 	kubectl apply -f $(K8S_DIR)/redis.yml
 redis-delete:
 	kubectl apply -f $(K8S_DIR)/redis.yml
-	
+
 # app
 app-create:
 	kubectl apply -f $(K8S_DIR)/app.yml
 app-delete:
 	kubectl delete -f $(K8S_DIR)/app.yml
 
+# Ingress
+ingress-create:
+	kubectl apply -f $(K8S_DIR)/app-ingress.yml
+ingress-delete:
+	kubectl delete -f $(K8S_DIR)/app-ingress.yml
 
 
 # Resource Query
@@ -60,5 +65,7 @@ secret:
 	kubectl get secret
 depl:
 	kubectl get deployment
+ing:
+	kubectl get ingress
 all:
 	kubectl get all

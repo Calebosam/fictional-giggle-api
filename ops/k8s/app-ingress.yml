@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-ingress
+  namespace: fic-gig
+  labels:
+    name: api-ingress
+spec:
+  rules:
+    - host: api.fictional-giggle.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: fictional-giggle-api-service
+                port: 
+                  number: 4000
