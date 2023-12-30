@@ -4,10 +4,10 @@ K8S_DIR = ./ops/k8s
 # Docker
 build-image:
 	docker build -t caleb9083/fictional-giggle-api .
-
+push-image:
+	docker push caleb9083/fictional-giggle-web
 start-container:
 	docker run -p 4002:4000 --name api-giggle --env-file .env caleb9083/fictional-giggle-api 
-
 stop-container:
 	docker rm -f api-giggle
 
@@ -55,6 +55,9 @@ ingress-create:
 ingress-delete:
 	kubectl delete -f $(K8S_DIR)/app-ingress.yml
 
+# Rollout
+rollout:
+	kubectl rollout restart deployment/fictional-giggle-api --namespace=fic-gig
 
 # Resource Query
 pods:
