@@ -23,7 +23,7 @@ gen-dockerhub-creds:
 ns-create:
 	kubectl apply -f $(K8S_DIR)/ns.yml
 ns-delete:
-	kubectl apply -f $(K8S_DIR)/ns.yml
+	kubectl delete -f $(K8S_DIR)/ns.yml
 
 # dockerhub Secret
 dockerhub-cred-create:
@@ -41,7 +41,7 @@ env-delete:
 redis-create:
 	kubectl apply -f $(K8S_DIR)/redis.yml
 redis-delete:
-	kubectl apply -f $(K8S_DIR)/redis.yml
+	kubectl delete -f $(K8S_DIR)/redis.yml
 
 # app
 app-create:
@@ -58,6 +58,10 @@ ingress-delete:
 # Rollout
 rollout:
 	kubectl rollout restart deployment/fictional-giggle-api --namespace=fic-gig
+
+# Application
+start: ns-create dockerhub-cred-create env-create redis-create app-create ingress-create
+stop: ingress-delete app-delete redis-delete env-delete dockerhub-cred-delete ns-delete
 
 # Resource Query
 pods:
